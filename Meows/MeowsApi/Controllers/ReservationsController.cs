@@ -19,7 +19,7 @@ namespace MeowsApi.Controllers
         }
 
         // GET: api/Reservations/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetReservations")]
         public string Get(int id)
         {
             return "value";
