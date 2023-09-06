@@ -12,7 +12,7 @@ namespace MeowsApi.Controllers
     [ApiController]
     public class PetsController : ControllerBase
     {
-        private IDictionary<string, Pet> _pets = new Dictionary<string, Pet>()
+        private static IDictionary<string, Pet> _pets = new Dictionary<string, Pet>()
         {
             { "1", new Pet { Id = "1", Name = "Garfield", Kind = PetKind.Cat } },
             { "2", new Pet { Id = "2", Name = "Maru", Kind = PetKind.Cat } },
@@ -21,44 +21,65 @@ namespace MeowsApi.Controllers
 
         // GET: api/Pets
         [HttpGet]
-        public IEnumerable<Pet> Get()
+        public ActionResult<IEnumerable<Pet>> Get()
         {
-            return _pets.Values;
+            return Ok(_pets.Values);
         }
 
         // GET: api/Pets/5
-        [HttpGet("{id}", Name = "GetPets")]
-        public Pet Get(string id)
+        [HttpGet("{id}", Name = "GetPet")]
+        public ActionResult<Pet> Get(string id)
         {
-            return _pets[id];
+            if (!_pets.ContainsKey(id))
+            {
+                return NotFound();
+            }
+            return Ok(_pets[id]);
         }
 
         // POST: api/Pets
         [HttpPost]
-        public void Post([FromBody] Pet value)
+        public ActionResult<Pet> Post([FromBody] PetRequest value)
         {
             var id = Guid.NewGuid().ToString();
-            _pets.Add(id,
-                new Pet
-                {
-                    Id = id,
-                    Name = value.Name,
-                    Kind = value.Kind,
-                });
+            var pet = new Pet
+            {
+                Id = id,
+                Name = value.Name,
+                Kind = value.Kind,
+            };
+
+            _pets.Add(id, pet);
+
+            return new CreatedAtActionResult(nameof(Get),
+                "Pets",
+                new { id },
+                pet);
         }
 
         // PUT: api/Pets/5
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody] Pet value)
+        public ActionResult<Pet> Put(string id, [FromBody] Pet value)
         {
+            if (!_pets.ContainsKey(id))
+            {
+                return NotFound();
+            }
             _pets[id] = value;
+            return new OkObjectResult(_pets[id]);
+
         }
 
         // DELETE: api/Pets/5
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public ActionResult Delete(string id)
         {
+            if (!_pets.ContainsKey(id))
+            {
+                return NotFound();
+            }
             _pets.Remove(id);
+            return Ok();
         }
     }
 }
