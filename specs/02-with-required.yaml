@@ -1,0 +1,251 @@
+openapi: 3.0.1
+info:
+  title: MeowsApi
+  version: '1.0'
+paths:
+  /api/Pets:
+    get:
+      tags:
+        - Pets
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+    post:
+      tags:
+        - Pets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  '/api/Pets/{id}':
+    get:
+      tags:
+        - Pets
+      operationId: GetPet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+    put:
+      tags:
+        - Pets
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+    delete:
+      tags:
+        - Pets
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /api/Reservations:
+    get:
+      tags:
+        - Reservations
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reservation'
+    post:
+      tags:
+        - Reservations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ReservationRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+  '/api/Reservations/{id}':
+    get:
+      tags:
+        - Reservations
+      operationId: GetReservation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+    put:
+      tags:
+        - Reservations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+    delete:
+      tags:
+        - Reservations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Pet:
+      required:
+        - id
+        - kind
+        - name
+      type: object
+      properties:
+        id:
+          minLength: 1
+          type: string
+        name:
+          minLength: 1
+          type: string
+        kind:
+          $ref: '#/components/schemas/PetKind'
+        ownerEmail:
+          type: string
+          nullable: true
+      additionalProperties: false
+    PetKind:
+      enum:
+        - Cat
+        - Dog
+        - Hamster
+      type: string
+    PetRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        kind:
+          $ref: '#/components/schemas/PetKind'
+        ownerEmail:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Reservation:
+      required:
+        - endAt
+        - guestsIds
+        - id
+        - startAt
+      type: object
+      properties:
+        id:
+          minLength: 1
+          type: string
+        startAt:
+          type: string
+          format: date-time
+        endAt:
+          type: string
+          format: date-time
+        guestsIds:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    ReservationRequest:
+      type: object
+      properties:
+        startAt:
+          type: string
+          format: date-time
+        endAt:
+          type: string
+          format: date-time
+        guestsIds:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
