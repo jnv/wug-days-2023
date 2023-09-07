@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +22,25 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.PreSerializeFilters.Add((swagger, httpReq) =>
+    {
+        swagger.Servers = new List<OpenApiServer>
+        {
+            new() { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}", Description = "Current server" },
+            new() { Url = "https://example.dev", Description = "Sandbox" },
+            new()
+            {
+                Url = "https://{region}.example.com", Variables = new Dictionary<string, OpenApiServerVariable>
+                {
+                    { "region", new OpenApiServerVariable { Default = "eu", Enum = new List<string> { "eu", "us", "in" } } }
+                }
+            }
+        };
+    });
+});
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
