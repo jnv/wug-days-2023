@@ -14,8 +14,8 @@ namespace MeowsApi.Controllers
     {
         private static IDictionary<string, Pet> _pets = new Dictionary<string, Pet>()
         {
-            { "1", new Pet { Id = "1", Name = "Garfield", Kind = PetKind.Cat } },
-            { "2", new Pet { Id = "2", Name = "Maru", Kind = PetKind.Cat } },
+            { "1", new Pet { Id = "1", Name = "Garfield", Kind = PetKind.Cat, OwnerEmail = "jon.arbuckle@example.com" } },
+            { "2", new Pet { Id = "2", Name = "Maru", Kind = PetKind.Cat, OwnerEmail = "mugumogu@example.co.jp" } },
             { "3", new Pet { Id = "3", Name = "Mr. Pickles", Kind = PetKind.Dog } }
         };
 
@@ -47,6 +47,7 @@ namespace MeowsApi.Controllers
                 Id = id,
                 Name = value.Name,
                 Kind = value.Kind,
+                OwnerEmail = value.OwnerEmail
             };
 
             _pets.Add(id, pet);
