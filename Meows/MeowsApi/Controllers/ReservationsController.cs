@@ -67,7 +67,6 @@ namespace MeowsApi.Controllers
 
         }
 
-        // DELETE: api/Pets/5
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
