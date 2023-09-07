@@ -18,7 +18,28 @@ builder.Services.AddControllers(options =>
     });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "Meows API",
+            Version = "v1",
+            Description = "A sample API",
+            TermsOfService = new Uri("http://example.org/toc"),
+            Contact = new OpenApiContact
+            {
+                Name = "Meow Meowson",
+                Email = "api@example.org"
+            },
+            License = new OpenApiLicense
+            {
+                Name = "Unlicense",
+                Url = new Uri("https://spdx.org/licenses/Unlicense.html")
+            }
+        }
+    );
+});
 
 var app = builder.Build();
 
