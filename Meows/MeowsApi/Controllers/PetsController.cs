@@ -47,7 +47,7 @@ namespace MeowsApi.Controllers
                 Id = id,
                 Name = value.Name,
                 Kind = value.Kind,
-                OwnerEmail = value.OwnerEmail
+                OwnerEmail = value.OwnerEmail!
             };
 
             _pets.Add(id, pet);
