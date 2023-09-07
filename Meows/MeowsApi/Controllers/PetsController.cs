@@ -66,7 +66,7 @@ namespace MeowsApi.Controllers
             {
                 return NotFound();
             }
-            _pets[id] = value;
+            _pets[id] = value with {Id = id};
             return new OkObjectResult(_pets[id]);
 
         }

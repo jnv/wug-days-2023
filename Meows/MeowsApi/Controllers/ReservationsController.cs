@@ -56,19 +56,13 @@ namespace MeowsApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Reservation> Put(string id, [FromBody] ReservationRequest value)
+        public ActionResult<Reservation> Put(string id, [FromBody] Reservation value)
         {
             if (!_reservations.ContainsKey(id))
             {
                 return NotFound();
             }
-            _reservations[id] = new Reservation
-            {
-                Id = id,
-                StartAt = value.StartAt,
-                EndAt = value.EndAt,
-                GuestsIds = value.GuestsIds
-            };
+            _reservations[id] = value with { Id = id };
             return new OkObjectResult(_reservations[id]);
 
         }
