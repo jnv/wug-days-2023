@@ -22,6 +22,22 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.AddSecurityDefinition("myKey", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.ApiKey,
+        Name = "Api-Key",
+        In = ParameterLocation.Header,
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "myKey" }
+            },
+            Array.Empty<string>()
+        }
+    });
     c.SwaggerDoc("v1",
         new OpenApiInfo
         {
