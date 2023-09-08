@@ -1,11 +1,13 @@
 using System.Text.Json.Serialization;
+using MeowsApi;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers(options =>
     {
         options.Filters.Add(new ProducesAttribute("application/json"));
@@ -40,7 +42,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     );
 });
-
+builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ProduceResponseTypeModelProvider>());
 var app = builder.Build();
 
 app.UseSwagger(c =>
