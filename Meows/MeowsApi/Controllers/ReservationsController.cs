@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MeowsApi.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MeowsApi.Controllers
 {
@@ -36,6 +37,14 @@ namespace MeowsApi.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Create new Reservation",
+            Description = "You can _also_ use **CommonMark** here.",
+            OperationId = "CreateReservation",
+            Tags = new[] { "Reservations", "Create" }
+        )]
+        [SwaggerResponse(201, "The reservation was created", typeof(Reservation))]
+        [SwaggerResponse(400, "The reservation data is invalid")]
         public ActionResult<Reservation> Post([FromBody] ReservationRequest value)
         {
             var id = Guid.NewGuid().ToString();

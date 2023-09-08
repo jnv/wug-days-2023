@@ -25,6 +25,7 @@ builder.Services.AddSwaggerGen(c =>
     var filePath = Path.Combine(
         System.AppContext.BaseDirectory, "MeowsApi.xml");
     c.IncludeXmlComments(filePath);
+    c.EnableAnnotations();
 
     c.AddSecurityDefinition("myKey", new OpenApiSecurityScheme
     {
