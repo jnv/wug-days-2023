@@ -42,7 +42,7 @@ namespace MeowsApi.Controllers
         // POST: api/Pets
         [HttpPost]
         [ProducesResponseType(typeof(Pet), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Pet> Post([FromBody] PetRequest value)
         {
             var id = Guid.NewGuid().ToString();
@@ -63,19 +63,20 @@ namespace MeowsApi.Controllers
         }
 
         // PUT: api/Pets/5
-        [HttpPut("{id}")]
-        [ProducesResponseType(typeof(Pet), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Pet> Put(string id, [FromBody] Pet value)
-        {
-            if (!_pets.ContainsKey(id))
-            {
-                return NotFound();
-            }
-            _pets[id] = value with {Id = id};
-            return new OkObjectResult(_pets[id]);
+[HttpPut("{id}")]
+[ProducesResponseType(typeof(Pet), StatusCodes.Status200OK)]
+[ProducesResponseType(StatusCodes.Status400BadRequest)]
+[ProducesResponseType(StatusCodes.Status404NotFound)]
+public ActionResult<Pet> Put(string id, [FromBody] Pet value)
+{
+    if (!_pets.ContainsKey(id))
+    {
+        return NotFound();
+    }
+    _pets[id] = value with {Id = id};
+    return new OkObjectResult(_pets[id]);
 
-        }
+}
 
         // DELETE: api/Pets/5
         [HttpDelete("{id}")]
