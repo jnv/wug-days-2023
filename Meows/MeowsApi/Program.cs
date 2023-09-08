@@ -22,6 +22,10 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    var filePath = Path.Combine(
+        System.AppContext.BaseDirectory, "MeowsApi.xml");
+    c.IncludeXmlComments(filePath);
+
     c.AddSecurityDefinition("myKey", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.ApiKey,

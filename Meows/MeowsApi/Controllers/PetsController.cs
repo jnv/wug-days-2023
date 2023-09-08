@@ -26,9 +26,21 @@ namespace MeowsApi.Controllers
             return Ok(_pets.Values);
         }
 
-        // GET: api/Pets/5
-        [HttpGet("{id}", Name = "GetPet")]
-        public ActionResult<Pet> Get(string id)
+
+
+/// <summary>
+/// Retrieves a specific pet by unique id
+/// </summary>
+/// <remarks>
+/// This is a _longer description_.
+///
+/// It can actually contain **CommonMark**!
+/// </remarks>
+/// <param name="id" example="2">Pet ID</param>
+/// <response code="200">Pet retrieved</response>
+/// <response code="404">Pet not found</response>
+[HttpGet("{id}", Name = "GetPet")]
+public ActionResult<Pet> Get(string id)
         {
             if (!_pets.ContainsKey(id))
             {
