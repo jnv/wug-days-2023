@@ -28,6 +28,6 @@ public record Pet
     /// <summary>
     /// Pet's owner's email address
     /// </summary>
-    /// <example>owner@example.cz</example>
+    /// <example>joe.carraclough@example.cz</example>
     public string OwnerEmail { get; init; }
 }
